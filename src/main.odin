@@ -44,20 +44,14 @@ run :: proc() -> int {
 		return 1
 	}
 
-	running := true
-	for running {
-		event: sdl3.Event
-		for sdl3.PollEvent(&event) {
-			#partial switch event.type {
-			case .QUIT:
-				running = false
-			case .KEY_DOWN:
-				if event.key.key == sdl3.K_ESCAPE {
-					running = false
-				}
-			}
-		}
-	}
+	engine := Engine {
+		gpu = gpu,
+		window = window,
+	};
+
+	initial_scene := GameScene();
+
+	run_event_loop(&engine, &initial_scene);
 
 	return 0
 }
